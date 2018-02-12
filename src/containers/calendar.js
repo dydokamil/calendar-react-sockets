@@ -1,11 +1,20 @@
 import React, { Component } from "react";
+import _ from "lodash";
+import moment from "moment";
 
-function daysInMonth(year, month) {
-  return new Date(year, month, 0).getDate();
+function getMonthDetails(year, month) {
+  const firstDay = moment(`${year}-${month}-1`, "YYYY-MM-DD");
+  const firstDayConst = firstDay;
+  const daysInMonth = firstDay.daysInMonth();
+
+  return _.map(_.range(daysInMonth - 1), addDays => {
+    return moment(firstDay).add(addDays, "days");
+  });
 }
 
 export default class Calendar extends Component {
   render() {
+    console.log(getMonthDetails(2018, 1));
     return (
       <div className="container">
         <div className="card">
@@ -15,7 +24,7 @@ export default class Calendar extends Component {
                 <span className="fas fa-angle-double-left" />
               </div>
               <div align="center" className="col s10">
-                Month
+                {moment().weeksInYear()}
               </div>
               <div className="col s1" align="right">
                 <span className="fas fa-angle-double-right" />
@@ -25,11 +34,7 @@ export default class Calendar extends Component {
           {/* body */}
           <div className="card-action">
             <table>
-              <tbody>
-                <tr>
-                  <td>Test</td>
-                </tr>
-              </tbody>
+              <tbody />
             </table>
           </div>
         </div>
