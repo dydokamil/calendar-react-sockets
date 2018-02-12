@@ -13,3 +13,11 @@ body {
   padding: 0 !important;
   cursor: pointer;
 }
+
+.unstylized-button:active {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.unstylized-button:focus {
+  background-color: rgba(0, 0, 0, 0);
+}

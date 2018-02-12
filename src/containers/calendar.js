@@ -36,31 +36,28 @@ class Calendar extends Component {
   }
 
   render() {
-    // let currentMonth = moment(`2018-2-1`, "YYYY-MM-DD");
-    // console.log(currentMonth.subtract(2, "month"));
-
     return (
       <div className="container">
         <div className="card">
-          <div className="card-content">
+          <div className="card-content blue lighten-4">
             <div className="no-margin-bottom row">
-              <div className="col s1">
+              <div className="col s2">
                 <button
-                  className="unstylized-button"
+                  className="unstylized-button blue lighten-4"
                   onClick={this.previousMonth.bind(this)}
                 >
                   <span className="fas fa-angle-double-left" />
                 </button>
               </div>
-              <div align="center" className="col s10">
+              <div align="center" className="col s8">
                 {this.props.monthDetails.first &&
                   `${this.props.monthDetails.year}, ${
                     this.props.monthDetails.monthName
                   }`}
               </div>
-              <div className="col s1" align="right">
+              <div className="col s2" align="right">
                 <button
-                  className="unstylized-button"
+                  className="unstylized-button blue lighten-4"
                   onClick={this.nextMonth.bind(this)}
                 >
                   <span className="fas fa-angle-double-right" />
@@ -75,9 +72,6 @@ class Calendar extends Component {
                 {this.props.monthDetails.first &&
                   _.map(
                     _.range(
-                      // this.props.monthDetails.last.week -
-                      // this.props.monthDetails.first.week +
-                      // 1
                       Math.ceil(
                         (this.props.monthDetails.last.day +
                           this.props.monthDetails.first.weekday -
