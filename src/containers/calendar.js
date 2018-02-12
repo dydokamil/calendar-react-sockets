@@ -3,13 +3,26 @@ import _ from "lodash";
 import moment from "moment";
 import { connect } from "react-redux";
 
-import { getMonthDetails } from "../actions";
+import { getMonthDetails, fetchEvents } from "../actions";
+import AddEvent from "./add_event";
 
 class Calendar extends Component {
   componentWillMount() {
     const now = moment();
+    console.log(now);
     this.props.getMonthDetails(now.year(), now.month());
     this.changeMonth = this.changeMonth.bind(this);
+    this.displayAddEvent = this.displayAddEvent.bind(this);
+
+    this.setState({
+      day: null,
+      content: null,
+      showComponent: false,
+      todayMonth: moment().month(),
+      todayDay: moment().day()
+    });
+
+    this.props.fetchEvents("admin", "zaq12wrx");
   }
 
   nextMonth = () => this.changeMonth(true);
@@ -35,6 +48,10 @@ class Calendar extends Component {
     }
   }
 
+  displayAddEvent(test, id) {
+    this.setState({ showComponent: true, day: id });
+  }
+
   render() {
     return (
       <div className="container">
@@ -46,7 +63,7 @@ class Calendar extends Component {
                   className="unstylized-button blue lighten-4"
                   onClick={this.previousMonth.bind(this)}
                 >
-                  <span className="fas fa-angle-double-left" />
+                  <i className="material-icons">keyboard_arrow_left</i>
                 </button>
               </div>
               <div align="center" className="col s8">
@@ -60,15 +77,24 @@ class Calendar extends Component {
                   className="unstylized-button blue lighten-4"
                   onClick={this.nextMonth.bind(this)}
                 >
-                  <span className="fas fa-angle-double-right" />
+                  <i className="material-icons">keyboard_arrow_right</i>
                 </button>
               </div>
             </div>
           </div>
           {/* body */}
           <div className="card-action">
-            <table>
+            <table className="center">
               <tbody>
+                <tr>
+                  <td>M</td>
+                  <td>T</td>
+                  <td>W</td>
+                  <td>T</td>
+                  <td>F</td>
+                  <td>S</td>
+                  <td>S</td>
+                </tr>
                 {this.props.monthDetails.first &&
                   _.map(
                     _.range(
@@ -81,7 +107,7 @@ class Calendar extends Component {
                     ),
                     week => {
                       return (
-                        <tr>
+                        <tr key={week}>
                           {_.map(_.range(7), day => {
                             return week * 7 + day + 1 >=
                               this.props.monthDetails.first.weekday &&
@@ -90,14 +116,37 @@ class Calendar extends Component {
                                 1 -
                                 this.props.monthDetails.first.weekday <
                                 this.props.monthDetails.last.day ? (
-                              <td>
-                                {week * 7 +
-                                  day +
-                                  2 -
-                                  this.props.monthDetails.first.weekday}
+                              <td key={day}>
+                                <button
+                                  onClick={event => {
+                                    this.displayAddEvent(
+                                      event,
+                                      week * 7 +
+                                        day +
+                                        2 -
+                                        this.props.monthDetails.first.weekday
+                                    );
+                                  }}
+                                  className={`btn-floating waves-effect ${
+                                    moment().month() ===
+                                      this.props.monthDetails.month &&
+                                    parseInt(moment().format("DD"), 10) ===
+                                      week * 7 +
+                                        day +
+                                        2 -
+                                        this.props.monthDetails.first.weekday
+                                      ? "red"
+                                      : ""
+                                  }`}
+                                >
+                                  {week * 7 +
+                                    day +
+                                    2 -
+                                    this.props.monthDetails.first.weekday}
+                                </button>
                               </td>
                             ) : (
-                              <td>-</td>
+                              <td key={day} />
                             );
                           })}
                         </tr>
@@ -108,13 +157,22 @@ class Calendar extends Component {
             </table>
           </div>
         </div>
+        {this.state.showComponent && (
+          <AddEvent
+            year={this.props.monthDetails.year}
+            month={this.props.monthDetails.month}
+            day={this.state.day}
+          />
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { monthDetails: state.monthDetails };
+  return { monthDetails: state.monthDetails, events: state.events };
 }
 
-export default connect(mapStateToProps, { getMonthDetails })(Calendar);
+export default connect(mapStateToProps, { getMonthDetails, fetchEvents })(
+  Calendar
+);
