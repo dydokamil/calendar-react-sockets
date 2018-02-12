@@ -8,7 +8,7 @@ import { getMonthDetails } from "../actions";
 class Calendar extends Component {
   componentWillMount() {
     const now = moment();
-    this.props.getMonthDetails(2018, 3);
+    this.props.getMonthDetails(now.year(), now.month());
     this.changeMonth = this.changeMonth.bind(this);
   }
 
@@ -17,28 +17,27 @@ class Calendar extends Component {
 
   changeMonth(next) {
     let currentMonth = moment(
-      `${this.props.monthDetails.year}-${this.props.monthDetails.month}-1`,
+      `${this.props.monthDetails.year}-${this.props.monthDetails.month + 1}-1`,
       "YYYY-MM-DD"
     );
     if (next) {
       currentMonth.add(1, "month");
       return this.props.getMonthDetails(
         currentMonth.year(),
-        currentMonth.month() + 1
+        currentMonth.month()
       );
     } else {
       currentMonth.subtract(1, "month");
       return this.props.getMonthDetails(
         currentMonth.year(),
-        currentMonth.month() + 1
+        currentMonth.month()
       );
     }
   }
 
   render() {
-    let currentMonth = moment(`2018-4-1`, "YYYY-MM-DD");
-    console.log(currentMonth.format("MMMM"));
-    console.log(currentMonth.isoWeekday());
+    // let currentMonth = moment(`2018-2-1`, "YYYY-MM-DD");
+    // console.log(currentMonth.subtract(2, "month"));
 
     return (
       <div className="container">
@@ -46,7 +45,10 @@ class Calendar extends Component {
           <div className="card-content">
             <div className="no-margin-bottom row">
               <div className="col s1">
-                <button onClick={this.previousMonth.bind(this)}>
+                <button
+                  className="unstylized-button"
+                  onClick={this.previousMonth.bind(this)}
+                >
                   <span className="fas fa-angle-double-left" />
                 </button>
               </div>
@@ -57,7 +59,10 @@ class Calendar extends Component {
                   }`}
               </div>
               <div className="col s1" align="right">
-                <button onClick={this.nextMonth.bind(this)}>
+                <button
+                  className="unstylized-button"
+                  onClick={this.nextMonth.bind(this)}
+                >
                   <span className="fas fa-angle-double-right" />
                 </button>
               </div>
@@ -70,9 +75,15 @@ class Calendar extends Component {
                 {this.props.monthDetails.first &&
                   _.map(
                     _.range(
-                      this.props.monthDetails.last.week -
-                        this.props.monthDetails.first.week +
-                        1
+                      // this.props.monthDetails.last.week -
+                      // this.props.monthDetails.first.week +
+                      // 1
+                      Math.ceil(
+                        (this.props.monthDetails.last.day +
+                          this.props.monthDetails.first.weekday -
+                          1) /
+                          7
+                      )
                     ),
                     week => {
                       return (

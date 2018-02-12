@@ -7,3 +7,9 @@ body {
 .no-margin-bottom {
   margin-bottom: 0;
 }
+
+.unstylized-button {
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+}
