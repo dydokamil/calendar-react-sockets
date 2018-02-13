@@ -8,8 +8,7 @@ export const ADD_EVENT = "add_event";
 const ROOT_URL = "http://192.168.0.102:8000/calendar/rest";
 
 export function getMonthDetails(year, month) {
-  const calendarMonth = month + 1;
-  const firstDay = moment(`${year}-${calendarMonth}-1`, "YYYY-MM-DD");
+  const firstDay = moment({ year, month });
   const lastDay = moment(firstDay).endOf("month");
 
   return {
@@ -33,22 +32,30 @@ export function getMonthDetails(year, month) {
 }
 
 export function addEvent(
-  day,
-  label,
   login, // login/password for brevity
   password,
-  start_datetime = null,
-  end_datetime = null
+  date,
+  label,
+  start = undefined,
+  end = undefined
 ) {
-  const request = axios.post(`${ROOT_URL}/calendar_entry/`, {
-    label,
-    start_datetime,
-    end_datetime,
-    auth: {
-      username: login,
-      password: password
+  const request = axios.post(
+    `${ROOT_URL}/calendar_entry/`,
+    {
+      label,
+      start,
+      end,
+      date
+    },
+    {
+      auth: {
+        username: login,
+        password: password
+      }
     }
-  });
+  );
+
+  console.log(request);
 
   return {
     type: ADD_EVENT,
@@ -63,6 +70,7 @@ export function fetchEvents(
   month = undefined,
   day = undefined
 ) {
+  month = month ? month + 1 : month;
   const request = axios.get(`${ROOT_URL}/calendar_entry/`, {
     auth: {
       username: login,

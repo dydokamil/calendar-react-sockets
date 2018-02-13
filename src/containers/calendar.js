@@ -11,9 +11,9 @@ import AddEvent from "./add_event";
 import Events from "./events";
 
 export function createDate(year, month, day) {
-  return `${year > 9 ? year : `0${year}`}-${
-    month + 1 > 9 ? month + 1 : `0${month + 1}`
-  }-${day > 9 ? day : `0${day}`}`;
+  return `${year > 9 ? year : `0${year}`}-${month > 9 ? month : `0${month}`}-${
+    day > 9 ? day : `0${day}`
+  }`;
 }
 
 class Calendar extends Component {
@@ -28,7 +28,7 @@ class Calendar extends Component {
       showAddEventComponent: false // display add_event component?
     });
 
-    this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month() + 1);
+    this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month());
   }
 
   nextMonth = () => this.changeMonth(true);
@@ -37,23 +37,18 @@ class Calendar extends Component {
   changeMonth(next) {
     // when an arrow has been pressed
     this.setState({ day: 1 });
-    let currentMonth = moment(
-      `${this.props.monthDetails.year}-${this.props.monthDetails.month + 1}-1`,
-      "YYYY-MM-DD"
-    );
-    if (next) {
-      currentMonth.add(1, "month");
-      this.props.getMonthDetails(currentMonth.year(), currentMonth.month());
-    } else {
-      currentMonth.subtract(1, "month");
+    let currentMonth = moment({
+      year: this.props.monthDetails.year,
+      month: this.props.monthDetails.month
+    });
+    next ? currentMonth.add(1, "month") : currentMonth.subtract(1, "month");
+    this.props.getMonthDetails(currentMonth.year(), currentMonth.month());
 
-      this.props.getMonthDetails(currentMonth.year(), currentMonth.month());
-    }
     this.props.fetchEvents(
       "admin",
       "zaq12wrx",
       currentMonth.year(),
-      currentMonth.month() + 1
+      currentMonth.month()
     );
   }
 
@@ -176,7 +171,7 @@ class Calendar extends Component {
                                       "date",
                                       createDate(
                                         this.props.monthDetails.year,
-                                        this.props.monthDetails.month,
+                                        this.props.monthDetails.month + 1,
                                         week * 7 +
                                           day +
                                           2 -
@@ -211,13 +206,13 @@ class Calendar extends Component {
             "date",
             createDate(
               this.props.monthDetails.year,
-              this.props.monthDetails.month,
+              this.props.monthDetails.month + 1,
               this.state.day
             )
           ]) && (
             <Events
               year={this.props.monthDetails.year}
-              month={this.props.monthDetails.month}
+              month={this.props.monthDetails.month + 1}
               day={this.state.day}
               closeComponent={this.closeShowEvents.bind(this)}
             />

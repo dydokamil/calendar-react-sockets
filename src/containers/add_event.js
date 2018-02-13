@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { addEvent } from "../actions";
 import { Input, Row, Col, Card } from "react-materialize";
 
+import { createDate } from "./calendar";
+
 class AddEvent extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,9 @@ class AddEvent extends Component {
 
   toggleEntireDay() {
     this.setState({
-      entireDay: !this.state.entireDay
+      entireDay: !this.state.entireDay,
+      start: undefined,
+      end: undefined
     });
   }
 
@@ -28,6 +32,19 @@ class AddEvent extends Component {
 
   setEndTime(time) {
     this.setState({ end: time });
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+
+    this.props.addEvent(
+      "admin",
+      "zaq12wrx",
+      createDate(this.props.year, this.props.month, this.props.day),
+      this.state.label,
+      this.state.start,
+      this.state.end
+    );
   }
 
   render() {
@@ -44,7 +61,7 @@ class AddEvent extends Component {
               </i>
             </Col>
           </Row>
-          <form>
+          <form onSubmit={this.submitForm.bind(this)}>
             <Row>
               <Col s={12}>
                 <Input
@@ -52,13 +69,11 @@ class AddEvent extends Component {
                   s={12}
                   disabled
                   id="date"
-                  value={`${this.props.year}-${
-                    this.props.month < 10
-                      ? `0${this.props.month}`
-                      : this.props.month
-                  }-${
-                    this.props.day < 10 ? `0${this.props.day}` : this.props.day
-                  }`}
+                  value={createDate(
+                    this.props.year,
+                    this.props.month,
+                    this.props.day
+                  )}
                   type="date"
                   className="validate"
                 />

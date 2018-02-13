@@ -5,7 +5,6 @@ import {
   Col,
   Collapsible,
   CollapsibleItem,
-  Card,
   Icon
 } from "react-materialize";
 import _ from "lodash";
@@ -74,7 +73,7 @@ class Events extends Component {
                   name="action"
                 >
                   Delete
-                  <i class="material-icons right">close</i>
+                  <i className="material-icons right">close</i>
                 </button>
               </CollapsibleItem>
             );
