@@ -5,7 +5,7 @@ body {
 }
 
 .no-margin-bottom {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .unstylized-button {
@@ -22,18 +22,32 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-button {
-  /* max-width: 100% !important; */
-  /* width: 100% !important; */
-  /* max-height: 100% !important; */
-  /* height: 100% !important; */
-}
-
 table.center tr td {
   text-align: center;
+}
+
+.calendar-header td {
+  font-weight: bold;
+  color: #aaa;
 }
 
 td,
 th {
   padding: 1rem;
+}
+
+.next-prev-month {
+  cursor: pointer;
+}
+
+.next-prev-month:hover > i {
+  font-weight: bold;
+}
+
+.calendar-day {
+  cursor: pointer;
+}
+
+.calendar-day:hover {
+  font-weight: bold;
 }

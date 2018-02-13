@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addEvent } from "../actions";
+import $ from "jquery";
+import { Input, Row, Col, Card } from "react-materialize";
 
 class AddEvent extends Component {
   constructor(props) {
@@ -19,32 +21,47 @@ class AddEvent extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-content">
-          <div className="row no-margin-bottom right-align">
-            <div className="col s12">
+      <Col s={12}>
+        <Card>
+          <Row className="right-align">
+            <Col s={12}>
               <button
                 onClick={this.props.closeComponent}
                 className="unstylized-button"
               >
                 <i className="material-icons">close</i>
               </button>
-            </div>
-          </div>
-          <div className="row no-margin-bottom">
-            <form className="col s12">
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    disabled
-                    id="date"
-                    value={`${this.props.year}-${this.props.month}-${
-                      this.props.day
-                    }`}
-                    type="text"
-                    className="validate datepicker"
-                  />
-                </div>
+            </Col>
+          </Row>
+          <form>
+            <Row>
+              <Col s={12}>
+                <Input
+                  label="Date"
+                  s={12}
+                  disabled
+                  id="date"
+                  value={`${this.props.year}-${this.props.month}-${
+                    this.props.day
+                  }`}
+                  type="text"
+                  className="validate datepicker"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col s={12}>
+                <Input
+                  s={12}
+                  label="Label"
+                  type="textarea"
+                  id="textarea1"
+                  className="materialize-textarea"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col s={12}>
                 <div className="switch">
                   <label>
                     <input type="checkbox" onChange={this.toggleEntireDay} />
@@ -52,39 +69,49 @@ class AddEvent extends Component {
                     Entire day
                   </label>
                 </div>
-                {this.state.entireDay && (
-                  <div>
-                    <div className="input-field col s12">
-                      <input
-                        id="time1"
-                        type="text"
-                        className="validate timepicker"
-                      />
-                      <label htmlFor="time">Start Time</label>
-                    </div>
-                    <div className="input-field col s12">
-                      <input
-                        id="time2"
-                        type="text"
-                        className="validate timepicker"
-                      />
-                      <label htmlFor="time">End Time</label>
-                    </div>
-                  </div>
-                )}
+              </Col>
+            </Row>
+            {this.state.entireDay && (
+              <div>
+                <Row>
+                  <Col s={12}>
+                    <Input
+                      id="time"
+                      name="on"
+                      s={12}
+                      type="time"
+                      label="Start"
+                      onChange={function(e, value) {
+                        console.log(e);
+                        console.log(value);
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col s={12} className="input-field">
+                    <Input
+                      id="time2"
+                      type="time"
+                      s={12}
+                      label="End"
+                      className="validate timepicker"
+                    />
+                  </Col>
+                </Row>
               </div>
-              <button
-                className="btn waves-effect waves-light"
-                type="submit"
-                name="action"
-              >
-                Submit
-                <i className="material-icons right">send</i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+            )}
+            <button
+              className="btn waves-effect waves-light"
+              type="submit"
+              name="action"
+            >
+              Submit
+              <i className="material-icons right">send</i>
+            </button>
+          </form>
+        </Card>
+      </Col>
     );
   }
 }

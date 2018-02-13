@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import _ from "lodash";
 import moment from "moment";
 import { connect } from "react-redux";
+// import "materialize-css";
+import "materialize-css/dist/css/materialize.min.css";
+import { Input, Row, Col, Card } from "react-materialize";
 
 import { getMonthDetails, fetchEvents } from "../actions";
 import AddEvent from "./add_event";
@@ -61,14 +64,14 @@ class Calendar extends Component {
       <div className="container">
         <div className="card">
           <div className="card-content blue lighten-4">
-            <div className="no-margin-bottom row">
+            <Row className="no-margin-bottom">
               <div className="col s2">
-                <button
-                  className="unstylized-button blue lighten-4"
+                <div
+                  className="next-prev-month"
                   onClick={this.previousMonth.bind(this)}
                 >
                   <i className="material-icons">keyboard_arrow_left</i>
-                </button>
+                </div>
               </div>
               <div align="center" className="col s8">
                 {this.props.monthDetails.first &&
@@ -76,21 +79,21 @@ class Calendar extends Component {
                     this.props.monthDetails.monthName
                   }`}
               </div>
-              <div className="col s2" align="right">
-                <button
-                  className="unstylized-button blue lighten-4"
+              <div className="col s2 right-align">
+                <div
+                  className="next-prev-month"
                   onClick={this.nextMonth.bind(this)}
                 >
                   <i className="material-icons">keyboard_arrow_right</i>
-                </button>
+                </div>
               </div>
-            </div>
+            </Row>
           </div>
           {/* body */}
           <div className="card-action">
             <table className="center">
               <tbody>
-                <tr>
+                <tr className="calendar-header">
                   <td>M</td>
                   <td>T</td>
                   <td>W</td>
@@ -121,7 +124,7 @@ class Calendar extends Component {
                                 this.props.monthDetails.first.weekday <
                                 this.props.monthDetails.last.day ? (
                               <td key={day}>
-                                <button
+                                <div
                                   onClick={event => {
                                     this.displayAddEvent(
                                       event,
@@ -131,7 +134,7 @@ class Calendar extends Component {
                                         this.props.monthDetails.first.weekday
                                     );
                                   }}
-                                  className={`btn-floating waves-effect ${
+                                  className={`calendar-day ${
                                     moment().month() ===
                                       this.props.monthDetails.month &&
                                     parseInt(moment().format("DD"), 10) ===
@@ -139,7 +142,7 @@ class Calendar extends Component {
                                         day +
                                         2 -
                                         this.props.monthDetails.first.weekday
-                                      ? "red"
+                                      ? "red lighten-5"
                                       : ""
                                   }`}
                                 >
@@ -147,7 +150,7 @@ class Calendar extends Component {
                                     day +
                                     2 -
                                     this.props.monthDetails.first.weekday}
-                                </button>
+                                </div>
                               </td>
                             ) : (
                               <td key={day} />
