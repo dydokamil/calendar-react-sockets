@@ -4,7 +4,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 // import "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
-import { Input, Row, Col, Card } from "react-materialize";
+import { Row } from "react-materialize";
 
 import { getMonthDetails, fetchEvents } from "../actions";
 import AddEvent from "./add_event";
@@ -148,7 +148,42 @@ class Calendar extends Component {
                                         this.props.monthDetails.first.weekday
                                       ? "red lighten-5"
                                       : ""
-                                  }`}
+                                  } ${
+                                    this.props.events.length &&
+                                    _.some(this.props.events, [
+                                      "date",
+                                      `${
+                                        this.props.monthDetails.year > 9
+                                          ? this.props.monthDetails.year
+                                          : `0${this.props.monthDetails.year}`
+                                      }-${
+                                        this.props.monthDetails.month + 1 > 9
+                                          ? this.props.monthDetails.month + 1
+                                          : `0${this.props.monthDetails.month +
+                                              1}`
+                                      }-${
+                                        week * 7 +
+                                          day +
+                                          2 -
+                                          this.props.monthDetails.first
+                                            .weekday >
+                                        9
+                                          ? week * 7 +
+                                            day +
+                                            2 -
+                                            this.props.monthDetails.first
+                                              .weekday
+                                          : `0${week * 7 +
+                                              day +
+                                              2 -
+                                              this.props.monthDetails.first
+                                                .weekday}`
+                                      }`
+                                    ])
+                                      ? "teal lighten-5"
+                                      : ""
+                                  }
+                                  `}
                                 >
                                   {week * 7 +
                                     day +

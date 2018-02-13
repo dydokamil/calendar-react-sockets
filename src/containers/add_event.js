@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addEvent } from "../actions";
-import $ from "jquery";
 import { Input, Row, Col, Card } from "react-materialize";
 
 class AddEvent extends Component {
@@ -10,13 +9,25 @@ class AddEvent extends Component {
 
     this.toggleEntireDay = this.toggleEntireDay.bind(this);
 
-    this.state = { entireDay: true };
+    this.state = { entireDay: false, label: "" };
   }
 
   toggleEntireDay() {
     this.setState({
       entireDay: !this.state.entireDay
     });
+  }
+
+  changeLabel(event) {
+    this.setState({ label: event.target.value });
+  }
+
+  setStartTime(time) {
+    this.setState({ start: time });
+  }
+
+  setEndTime(time) {
+    this.setState({ end: time });
   }
 
   render() {
@@ -51,7 +62,7 @@ class AddEvent extends Component {
                     this.props.day < 10 ? `0${this.props.day}` : this.props.day
                   }`}
                   type="date"
-                  className="validate datepicker"
+                  className="validate"
                 />
               </Col>
             </Row>
@@ -60,9 +71,11 @@ class AddEvent extends Component {
                 <Input
                   s={12}
                   label="Label"
+                  twelvehour="false"
                   type="textarea"
                   id="textarea1"
                   className="materialize-textarea"
+                  onChange={this.changeLabel.bind(this)}
                 />
               </Col>
             </Row>
@@ -77,7 +90,7 @@ class AddEvent extends Component {
                 </div>
               </Col>
             </Row>
-            {this.state.entireDay && (
+            {!this.state.entireDay && (
               <div>
                 <Row>
                   <Col s={12}>
@@ -87,9 +100,8 @@ class AddEvent extends Component {
                       s={12}
                       type="time"
                       label="Start"
-                      onChange={function(e, value) {
-                        console.log(e);
-                        console.log(value);
+                      onChange={(e, value) => {
+                        this.setStartTime(value);
                       }}
                     />
                   </Col>
@@ -102,6 +114,9 @@ class AddEvent extends Component {
                       s={12}
                       label="End"
                       className="validate timepicker"
+                      onChange={(e, value) => {
+                        this.setEndTime(value);
+                      }}
                     />
                   </Col>
                 </Row>
@@ -111,6 +126,11 @@ class AddEvent extends Component {
               className="btn waves-effect waves-light"
               type="submit"
               name="action"
+              disabled={
+                !this.state.label.length ||
+                (!this.state.entireDay && !this.state.start) ||
+                (!this.state.entireDay && !this.state.end)
+              }
             >
               Submit
               <i className="material-icons right">send</i>
