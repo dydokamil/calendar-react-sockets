@@ -36,14 +36,12 @@ class AddEvent extends Component {
         <Card>
           <Row className="right-align">
             <Col s={12}>
-              <div>
-                <i
-                  onClick={this.props.closeComponent}
-                  className="material-icons pointer bold-hover"
-                >
-                  close
-                </i>
-              </div>
+              <i
+                onClick={this.props.closeComponent}
+                className="material-icons pointer bold-hover"
+              >
+                close
+              </i>
             </Col>
           </Row>
           <form>

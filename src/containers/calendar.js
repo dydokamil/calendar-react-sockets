@@ -8,6 +8,13 @@ import { Row } from "react-materialize";
 
 import { getMonthDetails, fetchEvents } from "../actions";
 import AddEvent from "./add_event";
+import Events from "./events";
+
+export function createDate(year, month, day) {
+  return `${year > 9 ? year : `0${year}`}-${
+    month + 1 > 9 ? month + 1 : `0${month + 1}`
+  }-${day > 9 ? day : `0${day}`}`;
+}
 
 class Calendar extends Component {
   componentWillMount() {
@@ -15,11 +22,10 @@ class Calendar extends Component {
     this.props.getMonthDetails(now.year(), now.month());
     this.changeMonth = this.changeMonth.bind(this);
     this.displayAddEvent = this.displayAddEvent.bind(this);
-    // this.closeAddEvent = this.closeAddEvent.bind(this);
 
     this.setState({
       day: null, // currently selected day
-      showComponent: false // display add_event component?
+      showAddEventComponent: false // display add_event component?
     });
 
     this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month() + 1);
@@ -51,12 +57,20 @@ class Calendar extends Component {
     );
   }
 
-  displayAddEvent(test, id) {
-    this.setState({ showComponent: true, day: id });
+  displayAddEvent(test, day) {
+    this.setState({ showAddEventComponent: true, day });
+  }
+
+  displayEvents(id) {
+    this.setState({ showEventsComponent: true });
   }
 
   closeAddEvent() {
-    this.setState({ showComponent: false, day: undefined });
+    this.setState({ showAddEventComponent: false, day: undefined });
+  }
+
+  closeShowEvents() {
+    this.setState({ showEventsComponent: false });
   }
 
   render() {
@@ -137,8 +151,17 @@ class Calendar extends Component {
                                         2 -
                                         this.props.monthDetails.first.weekday
                                     );
+                                    this.displayEvents(
+                                      event,
+                                      week * 7 +
+                                        day +
+                                        2 -
+                                        this.props.monthDetails.first.weekday
+                                    );
                                   }}
                                   className={`calendar-day ${
+                                    moment().year() ===
+                                      this.props.monthDetails.year &&
                                     moment().month() ===
                                       this.props.monthDetails.month &&
                                     parseInt(moment().format("DD"), 10) ===
@@ -149,36 +172,16 @@ class Calendar extends Component {
                                       ? "red lighten-5"
                                       : ""
                                   } ${
-                                    this.props.events.length &&
                                     _.some(this.props.events, [
                                       "date",
-                                      `${
-                                        this.props.monthDetails.year > 9
-                                          ? this.props.monthDetails.year
-                                          : `0${this.props.monthDetails.year}`
-                                      }-${
-                                        this.props.monthDetails.month + 1 > 9
-                                          ? this.props.monthDetails.month + 1
-                                          : `0${this.props.monthDetails.month +
-                                              1}`
-                                      }-${
+                                      createDate(
+                                        this.props.monthDetails.year,
+                                        this.props.monthDetails.month,
                                         week * 7 +
                                           day +
                                           2 -
-                                          this.props.monthDetails.first
-                                            .weekday >
-                                        9
-                                          ? week * 7 +
-                                            day +
-                                            2 -
-                                            this.props.monthDetails.first
-                                              .weekday
-                                          : `0${week * 7 +
-                                              day +
-                                              2 -
-                                              this.props.monthDetails.first
-                                                .weekday}`
-                                      }`
+                                          this.props.monthDetails.first.weekday
+                                      )
                                     ])
                                       ? "teal lighten-5"
                                       : ""
@@ -203,7 +206,23 @@ class Calendar extends Component {
             </table>
           </div>
         </div>
-        {this.state.showComponent && (
+        {this.state.showEventsComponent &&
+          _.some(this.props.events, [
+            "date",
+            createDate(
+              this.props.monthDetails.year,
+              this.props.monthDetails.month,
+              this.state.day
+            )
+          ]) && (
+            <Events
+              year={this.props.monthDetails.year}
+              month={this.props.monthDetails.month}
+              day={this.state.day}
+              closeComponent={this.closeShowEvents.bind(this)}
+            />
+          )}
+        {this.state.showAddEventComponent && (
           <AddEvent
             year={this.props.monthDetails.year}
             month={this.props.monthDetails.month + 1}
