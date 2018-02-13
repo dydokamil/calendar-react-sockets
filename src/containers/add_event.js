@@ -25,12 +25,14 @@ class AddEvent extends Component {
         <Card>
           <Row className="right-align">
             <Col s={12}>
-              <button
-                onClick={this.props.closeComponent}
-                className="unstylized-button"
-              >
-                <i className="material-icons">close</i>
-              </button>
+              <div>
+                <i
+                  onClick={this.props.closeComponent}
+                  className="material-icons pointer bold-hover"
+                >
+                  close
+                </i>
+              </div>
             </Col>
           </Row>
           <form>
@@ -41,10 +43,14 @@ class AddEvent extends Component {
                   s={12}
                   disabled
                   id="date"
-                  value={`${this.props.year}-${this.props.month}-${
-                    this.props.day
+                  value={`${this.props.year}-${
+                    this.props.month < 10
+                      ? `0${this.props.month}`
+                      : this.props.month
+                  }-${
+                    this.props.day < 10 ? `0${this.props.day}` : this.props.day
                   }`}
-                  type="text"
+                  type="date"
                   className="validate datepicker"
                 />
               </Col>

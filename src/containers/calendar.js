@@ -66,11 +66,13 @@ class Calendar extends Component {
           <div className="card-content blue lighten-4">
             <Row className="no-margin-bottom">
               <div className="col s2">
-                <div
-                  className="next-prev-month"
-                  onClick={this.previousMonth.bind(this)}
-                >
-                  <i className="material-icons">keyboard_arrow_left</i>
+                <div>
+                  <i
+                    onClick={this.previousMonth.bind(this)}
+                    className="pointer bold-hover material-icons"
+                  >
+                    keyboard_arrow_left
+                  </i>
                 </div>
               </div>
               <div align="center" className="col s8">
@@ -80,11 +82,13 @@ class Calendar extends Component {
                   }`}
               </div>
               <div className="col s2 right-align">
-                <div
-                  className="next-prev-month"
-                  onClick={this.nextMonth.bind(this)}
-                >
-                  <i className="material-icons">keyboard_arrow_right</i>
+                <div>
+                  <i
+                    onClick={this.nextMonth.bind(this)}
+                    className="pointer bold-hover material-icons"
+                  >
+                    keyboard_arrow_right
+                  </i>
                 </div>
               </div>
             </Row>

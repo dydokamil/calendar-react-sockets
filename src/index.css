@@ -36,6 +36,14 @@ th {
   padding: 1rem;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.bold-hover:hover {
+  font-weight: bold;
+}
+
 .next-prev-month {
   cursor: pointer;
 }
