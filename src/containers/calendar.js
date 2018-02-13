@@ -61,7 +61,7 @@ class Calendar extends Component {
   }
 
   closeAddEvent() {
-    this.setState({ showAddEventComponent: false, day: undefined });
+    this.setState({ showAddEventComponent: false });
   }
 
   closeShowEvents() {

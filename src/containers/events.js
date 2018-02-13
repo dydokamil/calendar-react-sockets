@@ -10,8 +10,18 @@ import {
 import _ from "lodash";
 
 import { createDate } from "./calendar";
+import { deleteEvent } from "../actions";
 
 class Events extends Component {
+  constructor(props) {
+    super(props);
+    this.dispatchDeleteEvent = this.dispatchDeleteEvent.bind(this);
+  }
+
+  dispatchDeleteEvent(event_id) {
+    this.props.deleteEvent("admin", "zaq12wrx", event_id);
+  }
+
   render() {
     const eventsThisDay = _.mapKeys(
       _.filter(
@@ -71,6 +81,7 @@ class Events extends Component {
                   className="btn red waves-effect waves-light"
                   type="submit"
                   name="action"
+                  onClick={() => this.dispatchDeleteEvent(event.id)}
                 >
                   Delete
                   <i className="material-icons right">close</i>
@@ -88,4 +99,4 @@ function mapStateToProps(state) {
   return { events: state.events };
 }
 
-export default connect(mapStateToProps)(Events);
+export default connect(mapStateToProps, { deleteEvent })(Events);

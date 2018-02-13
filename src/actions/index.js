@@ -4,6 +4,7 @@ import moment from "moment";
 export const GET_MONTH_DETAILS = "get_month_details";
 export const FETCH_EVENTS = "fetch_events";
 export const ADD_EVENT = "add_event";
+export const DELETE_EVENT = "delete_event";
 
 const ROOT_URL = "http://192.168.0.102:8000/calendar/rest";
 
@@ -55,8 +56,6 @@ export function addEvent(
     }
   );
 
-  console.log(request);
-
   return {
     type: ADD_EVENT,
     payload: request
@@ -86,5 +85,16 @@ export function fetchEvents(
   return {
     type: FETCH_EVENTS,
     payload: request
+  };
+}
+
+export function deleteEvent(login, password, id) {
+  const request = axios.delete(`${ROOT_URL}/calendar_entry/${id}`, {
+    auth: { username: login, password: password }
+  });
+  return {
+    type: DELETE_EVENT,
+    payload: request,
+    id
   };
 }
