@@ -59,3 +59,7 @@ th {
 .calendar-day:hover {
   font-weight: bold;
 }
+
+.collapsible-header {
+  padding: 1rem;
+}

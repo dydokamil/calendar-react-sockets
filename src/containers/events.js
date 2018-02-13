@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Card, Row, Col } from "react-materialize";
+import {
+  Row,
+  Col,
+  Collapsible,
+  CollapsibleItem,
+  Card,
+  Icon
+} from "react-materialize";
 import _ from "lodash";
 
 import { createDate } from "./calendar";
 
 class Events extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const eventsThisDay = _.mapKeys(
       _.filter(
@@ -22,25 +25,62 @@ class Events extends Component {
     );
 
     return (
-      <Card>
-        <Row>
-          <Col s={12} className="right-align">
-            <i
-              onClick={this.props.closeComponent}
-              className="material-icons pointer bold-hover"
-            >
-              close
-            </i>
-          </Col>
-        </Row>
-        {_.map(eventsThisDay, event => {
-          return (
-            <Row key={event.id}>
-              <Col s={12}>{event.label}</Col>
-            </Row>
-          );
-        })}
-      </Card>
+      eventsThisDay && (
+        <Collapsible>
+          <div className="collapsible-header blue lighten-4">
+            <Icon>perm_contact_calendar</Icon>
+            {createDate(this.props.year, this.props.month, this.props.day)}
+          </div>
+          {_.map(eventsThisDay, event => {
+            return (
+              <CollapsibleItem header={event.label} key={event.id}>
+                {!event.start && !event.end ? (
+                  <Row>
+                    <Col s={12} className="valign-wrapper">
+                      {" "}
+                      <Icon>timer</Icon>
+                      <span>All day</span>
+                    </Col>
+                  </Row>
+                ) : (
+                  <div>
+                    <Row>
+                      <Col s={12} className="valign-wrapper">
+                        <Icon>timer</Icon>
+                        <span>
+                          {event.start
+                            .split(":")
+                            .slice(0, 2)
+                            .join(":")}
+                        </span>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col s={12} className="valign-wrapper">
+                        <Icon>timer</Icon>
+                        <span>
+                          {event.end
+                            .split(":")
+                            .slice(0, 2)
+                            .join(":")}
+                        </span>
+                      </Col>
+                    </Row>
+                  </div>
+                )}
+                <button
+                  className="btn red waves-effect waves-light"
+                  type="submit"
+                  name="action"
+                >
+                  Delete
+                  <i class="material-icons right">close</i>
+                </button>
+              </CollapsibleItem>
+            );
+          })}
+        </Collapsible>
+      )
     );
   }
 }

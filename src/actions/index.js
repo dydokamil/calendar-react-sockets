@@ -5,7 +5,7 @@ export const GET_MONTH_DETAILS = "get_month_details";
 export const FETCH_EVENTS = "fetch_events";
 export const ADD_EVENT = "add_event";
 
-const ROOT_URL = "http://localhost:8000/calendar/rest";
+const ROOT_URL = "http://192.168.0.102:8000/calendar/rest";
 
 export function getMonthDetails(year, month) {
   const calendarMonth = month + 1;
