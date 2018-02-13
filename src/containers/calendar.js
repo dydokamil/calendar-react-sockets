@@ -9,7 +9,6 @@ import AddEvent from "./add_event";
 class Calendar extends Component {
   componentWillMount() {
     const now = moment();
-    console.log(now);
     this.props.getMonthDetails(now.year(), now.month());
     this.changeMonth = this.changeMonth.bind(this);
     this.displayAddEvent = this.displayAddEvent.bind(this);
@@ -17,12 +16,10 @@ class Calendar extends Component {
     this.setState({
       day: null,
       content: null,
-      showComponent: false,
-      todayMonth: moment().month(),
-      todayDay: moment().day()
+      showComponent: false
     });
 
-    this.props.fetchEvents("admin", "zaq12wrx");
+    this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month() + 1);
   }
 
   nextMonth = () => this.changeMonth(true);
@@ -35,17 +32,18 @@ class Calendar extends Component {
     );
     if (next) {
       currentMonth.add(1, "month");
-      return this.props.getMonthDetails(
-        currentMonth.year(),
-        currentMonth.month()
-      );
+      this.props.getMonthDetails(currentMonth.year(), currentMonth.month());
     } else {
       currentMonth.subtract(1, "month");
-      return this.props.getMonthDetails(
-        currentMonth.year(),
-        currentMonth.month()
-      );
+
+      this.props.getMonthDetails(currentMonth.year(), currentMonth.month());
     }
+    this.props.fetchEvents(
+      "admin",
+      "zaq12wrx",
+      currentMonth.year(),
+      currentMonth.month() + 1
+    );
   }
 
   displayAddEvent(test, id) {

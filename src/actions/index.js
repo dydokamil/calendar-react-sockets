@@ -63,6 +63,8 @@ export function fetchEvents(
   month = undefined,
   day = undefined
 ) {
+  console.log(year);
+  console.log(month);
   const request = axios.get(`${ROOT_URL}/calendar_entry/`, {
     auth: {
       username: login,

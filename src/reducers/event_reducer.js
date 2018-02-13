@@ -5,7 +5,7 @@ export default function(state = {}, action) {
     case ADD_EVENT:
       return { ...state, [action.payload.data.id]: action.payload.data };
     case FETCH_EVENTS:
-      return action.payload;
+      return action.payload.data;
     default:
       return state;
   }
