@@ -21,6 +21,16 @@ class AddEvent extends Component {
     return (
       <div className="card">
         <div className="card-content">
+          <div className="row no-margin-bottom right-align">
+            <div className="col s12">
+              <button
+                onClick={this.props.closeComponent}
+                className="unstylized-button"
+              >
+                <i className="material-icons">close</i>
+              </button>
+            </div>
+          </div>
           <div className="row no-margin-bottom">
             <form className="col s12">
               <div className="row">

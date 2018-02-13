@@ -12,11 +12,11 @@ class Calendar extends Component {
     this.props.getMonthDetails(now.year(), now.month());
     this.changeMonth = this.changeMonth.bind(this);
     this.displayAddEvent = this.displayAddEvent.bind(this);
+    // this.closeAddEvent = this.closeAddEvent.bind(this);
 
     this.setState({
-      day: null,
-      content: null,
-      showComponent: false
+      day: null, // currently selected day
+      showComponent: false // display add_event component?
     });
 
     this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month() + 1);
@@ -26,6 +26,8 @@ class Calendar extends Component {
   previousMonth = () => this.changeMonth(false);
 
   changeMonth(next) {
+    // when an arrow has been pressed
+    this.setState({ day: 1 });
     let currentMonth = moment(
       `${this.props.monthDetails.year}-${this.props.monthDetails.month + 1}-1`,
       "YYYY-MM-DD"
@@ -48,6 +50,10 @@ class Calendar extends Component {
 
   displayAddEvent(test, id) {
     this.setState({ showComponent: true, day: id });
+  }
+
+  closeAddEvent() {
+    this.setState({ showComponent: false, day: undefined });
   }
 
   render() {
@@ -158,8 +164,9 @@ class Calendar extends Component {
         {this.state.showComponent && (
           <AddEvent
             year={this.props.monthDetails.year}
-            month={this.props.monthDetails.month}
+            month={this.props.monthDetails.month + 1}
             day={this.state.day}
+            closeComponent={this.closeAddEvent.bind(this)}
           />
         )}
       </div>
