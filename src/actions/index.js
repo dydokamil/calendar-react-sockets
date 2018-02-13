@@ -6,7 +6,7 @@ export const FETCH_EVENTS = "fetch_events";
 export const ADD_EVENT = "add_event";
 export const DELETE_EVENT = "delete_event";
 
-const ROOT_URL = "http://192.168.0.102:8000/calendar/rest";
+const ROOT_URL = "https://calendar-django.herokuapp.com/calendar/rest";
 
 export function getMonthDetails(year, month) {
   const firstDay = moment({ year, month });
