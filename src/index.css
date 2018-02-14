@@ -63,3 +63,7 @@ th {
 .collapsible-header {
   padding: 1rem;
 }
+
+.default-cursor {
+  cursor: default !important;
+}

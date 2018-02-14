@@ -36,7 +36,7 @@ class Events extends Component {
     return (
       eventsThisDay && (
         <Collapsible>
-          <div className="collapsible-header blue lighten-4">
+          <div className="collapsible-header blue lighten-4 default-cursor">
             <Icon>perm_contact_calendar</Icon>
             {createDate(this.props.year, this.props.month, this.props.day)}
           </div>
