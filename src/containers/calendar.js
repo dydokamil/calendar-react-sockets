@@ -6,7 +6,12 @@ import { connect } from "react-redux";
 import "materialize-css/dist/css/materialize.min.css";
 import { Row } from "react-materialize";
 
-import { getMonthDetails, fetchEvents } from "../actions";
+import {
+  getMonthDetails,
+  fetchEvents,
+  addEventSocket,
+  deleteEventSocket
+} from "../actions";
 import AddEvent from "./add_event";
 import Events from "./events";
 
@@ -39,6 +44,18 @@ class Calendar extends Component {
     });
 
     this.props.fetchEvents("admin", "zaq12wrx", now.year(), now.month());
+
+    // socket
+    this.props.socket.on("usersLength", usersLength => {
+      this.setState({ usersLength });
+    });
+    this.props.socket.on("add_event", event => {
+      console.log("ADD_EVENT_SOCKET CALLED. EVERYBODY PANIC");
+      this.props.addEventSocket(event);
+    });
+    this.props.socket.on("remove_event", event => {
+      this.props.deleteEventSocket(event);
+    });
   }
 
   nextMonth = () => this.changeMonth(true);
@@ -81,6 +98,7 @@ class Calendar extends Component {
   render() {
     return (
       <div className="container">
+        <h4>{`${this.state.usersLength} user(s) currently connected`}</h4>
         <div className="card">
           <div className="card-content blue lighten-4">
             <Row className="no-margin-bottom">
@@ -244,6 +262,9 @@ function mapStateToProps(state) {
   return { monthDetails: state.monthDetails, events: state.events };
 }
 
-export default connect(mapStateToProps, { getMonthDetails, fetchEvents })(
-  Calendar
-);
+export default connect(mapStateToProps, {
+  getMonthDetails,
+  fetchEvents,
+  addEventSocket,
+  deleteEventSocket
+})(Calendar);

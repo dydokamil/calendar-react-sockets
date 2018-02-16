@@ -4,7 +4,9 @@ import moment from "moment";
 export const GET_MONTH_DETAILS = "get_month_details";
 export const FETCH_EVENTS = "fetch_events";
 export const ADD_EVENT = "add_event";
+export const ADD_EVENT_SOCKET = "add_event_socket";
 export const DELETE_EVENT = "delete_event";
+export const DELETE_EVENT_SOCKET = "delete_event_socket";
 
 // const ROOT_URL = "https://calendar-django.herokuapp.com/calendar/rest";
 const ROOT_URL = "http://localhost:8000";
@@ -31,6 +33,20 @@ export function getMonthDetails(year, month) {
       month,
       monthName: firstDay.format("MMMM")
     }
+  };
+}
+
+export function addEventSocket(event) {
+  return {
+    type: ADD_EVENT_SOCKET,
+    payload: event
+  };
+}
+
+export function deleteEventSocket(id) {
+  return {
+    type: DELETE_EVENT_SOCKET,
+    id
   };
 }
 
