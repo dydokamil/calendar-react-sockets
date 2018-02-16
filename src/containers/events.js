@@ -9,12 +9,13 @@ import {
 } from "react-materialize";
 import _ from "lodash";
 
-import { createDate } from "./calendar";
+import { createDate, createDatetime, getTimeFromDatetime } from "./calendar";
 import { deleteEvent } from "../actions";
 
 class Events extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.dispatchDeleteEvent = this.dispatchDeleteEvent.bind(this);
   }
 
@@ -28,10 +29,11 @@ class Events extends Component {
         this.props.events,
         event =>
           event.date ===
-          createDate(this.props.year, this.props.month, this.props.day)
+          createDatetime(this.props.year, this.props.month, this.props.day)
       ),
-      "id"
+      "_id"
     );
+    console.log(eventsThisDay);
 
     return (
       eventsThisDay && (
@@ -57,7 +59,7 @@ class Events extends Component {
                       <Col s={12} className="valign-wrapper">
                         <Icon>timer</Icon>
                         <span>
-                          {event.start
+                          {getTimeFromDatetime(event.start)
                             .split(":")
                             .slice(0, 2)
                             .join(":")}
@@ -68,7 +70,7 @@ class Events extends Component {
                       <Col s={12} className="valign-wrapper">
                         <Icon>timer</Icon>
                         <span>
-                          {event.end
+                          {getTimeFromDatetime(event.end)
                             .split(":")
                             .slice(0, 2)
                             .join(":")}
@@ -81,7 +83,7 @@ class Events extends Component {
                   className="btn red waves-effect waves-light"
                   type="submit"
                   name="action"
-                  onClick={() => this.dispatchDeleteEvent(event.id)}
+                  onClick={() => this.dispatchDeleteEvent(event._id)}
                 >
                   Delete
                   <i className="material-icons right">close</i>

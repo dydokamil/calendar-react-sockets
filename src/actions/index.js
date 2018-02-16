@@ -6,7 +6,9 @@ export const FETCH_EVENTS = "fetch_events";
 export const ADD_EVENT = "add_event";
 export const DELETE_EVENT = "delete_event";
 
-const ROOT_URL = "https://calendar-django.herokuapp.com/calendar/rest";
+// const ROOT_URL = "https://calendar-django.herokuapp.com/calendar/rest";
+const ROOT_URL = "http://localhost:8000";
+const APP_URL = "events";
 
 export function getMonthDetails(year, month) {
   const firstDay = moment({ year, month });
@@ -40,8 +42,20 @@ export function addEvent(
   start = undefined,
   end = undefined
 ) {
+  if (start && end) {
+    start = moment
+      .utc(`${date}T${start}`, "YYYY-MM-DDThh:mm A")
+      .toDate()
+      .toISOString();
+    end = moment
+      .utc(`${date}T${end}`, "YYYY-MM-DDThh:mm A")
+      .toDate()
+      .toISOString();
+  } else {
+    start = end = undefined;
+  }
   const request = axios.post(
-    `${ROOT_URL}/calendar_entry/`,
+    `${ROOT_URL}/${APP_URL}/`,
     {
       label,
       start,
@@ -70,7 +84,7 @@ export function fetchEvents(
   day = undefined
 ) {
   month = month ? month + 1 : month;
-  const request = axios.get(`${ROOT_URL}/calendar_entry/`, {
+  const request = axios.get(`${ROOT_URL}/${APP_URL}/`, {
     auth: {
       username: login,
       password: password
@@ -89,7 +103,7 @@ export function fetchEvents(
 }
 
 export function deleteEvent(login, password, id) {
-  const request = axios.delete(`${ROOT_URL}/calendar_entry/${id}`, {
+  const request = axios.delete(`${ROOT_URL}/${APP_URL}/${id}/`, {
     auth: { username: login, password: password }
   });
   return {

@@ -5,9 +5,9 @@ import { ADD_EVENT, FETCH_EVENTS, DELETE_EVENT } from "../actions";
 export default function(state = {}, action) {
   switch (action.type) {
     case ADD_EVENT:
-      return { ...state, [action.payload.data.id]: action.payload.data };
+      return { ...state, [action.payload.data._id]: action.payload.data };
     case FETCH_EVENTS:
-      return _.mapKeys(action.payload.data, "id");
+      return _.mapKeys(action.payload.data, "_id");
     case DELETE_EVENT:
       if (action.error) {
         return action.payload.data;

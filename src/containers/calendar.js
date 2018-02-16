@@ -10,10 +10,20 @@ import { getMonthDetails, fetchEvents } from "../actions";
 import AddEvent from "./add_event";
 import Events from "./events";
 
+export function createDatetime(year, month, day) {
+  return new Date(
+    `${year > 9 ? year : `0${year}`}-${month > 9 ? month : `0${month}`}-${
+      day > 9 ? day : `0${day}`
+    }`
+  ).toISOString();
+}
+
 export function createDate(year, month, day) {
-  return `${year > 9 ? year : `0${year}`}-${month > 9 ? month : `0${month}`}-${
-    day > 9 ? day : `0${day}`
-  }`;
+  return createDatetime(year, month, day).split("T")[0];
+}
+
+export function getTimeFromDatetime(datetime) {
+  return datetime.split("T")[1];
 }
 
 class Calendar extends Component {
@@ -169,7 +179,7 @@ class Calendar extends Component {
                                   } ${
                                     _.some(this.props.events, [
                                       "date",
-                                      createDate(
+                                      createDatetime(
                                         this.props.monthDetails.year,
                                         this.props.monthDetails.month + 1,
                                         week * 7 +
@@ -204,7 +214,7 @@ class Calendar extends Component {
         {this.state.showEventsComponent &&
           _.some(this.props.events, [
             "date",
-            createDate(
+            createDatetime(
               this.props.monthDetails.year,
               this.props.monthDetails.month + 1,
               this.state.day
