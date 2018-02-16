@@ -5,13 +5,12 @@ import registerServiceWorker from "./registerServiceWorker";
 import { createStore, applyMiddleware } from "redux";
 import promise from "redux-promise";
 import { Provider } from "react-redux";
-import logger from "redux-logger";
 import openSocket from "socket.io-client";
 
 import reducers from "./reducers";
 import Calendar from "./containers/calendar";
 
-const createStoreWithMiddleware = applyMiddleware(logger, promise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 const socket = openSocket("https://express-calendar-sockets.herokuapp.com");
 
