@@ -9,7 +9,8 @@ export const DELETE_EVENT = "delete_event";
 export const DELETE_EVENT_SOCKET = "delete_event_socket";
 
 // const ROOT_URL = "https://calendar-django.herokuapp.com/calendar/rest";
-const ROOT_URL = "http://localhost:8000";
+// const ROOT_URL = "http://localhost:8000";
+const ROOT_URL = "https://express-calendar-sockets.herokuapp.com";
 const APP_URL = "events";
 
 export function getMonthDetails(year, month) {

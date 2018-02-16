@@ -13,7 +13,7 @@ import Calendar from "./containers/calendar";
 
 const createStoreWithMiddleware = applyMiddleware(logger, promise)(createStore);
 
-const socket = openSocket("http://localhost:8000");
+const socket = openSocket("https://express-calendar-sockets.herokuapp.com");
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
