@@ -50,7 +50,6 @@ class Calendar extends Component {
       this.setState({ usersLength });
     });
     this.props.socket.on("add_event", event => {
-      console.log("ADD_EVENT_SOCKET CALLED. EVERYBODY PANIC");
       this.props.addEventSocket(event);
     });
     this.props.socket.on("remove_event", event => {

@@ -13,7 +13,6 @@ export default function(state = {}, action) {
     case ADD_EVENT:
       return { ...state, [action.payload.data._id]: action.payload.data };
     case ADD_EVENT_SOCKET:
-      console.log(action.payload);
       return { ...state, [action.payload._id]: action.payload };
     case FETCH_EVENTS:
       return _.mapKeys(action.payload.data, "_id");

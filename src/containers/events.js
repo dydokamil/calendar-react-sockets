@@ -15,7 +15,6 @@ import { deleteEvent } from "../actions";
 class Events extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.dispatchDeleteEvent = this.dispatchDeleteEvent.bind(this);
   }
 
@@ -33,7 +32,6 @@ class Events extends Component {
       ),
       "_id"
     );
-    console.log(eventsThisDay);
 
     return (
       eventsThisDay && (
