@@ -8,4 +8,5 @@ https://calendar-react-sockets.herokuapp.com/
 
     git clone https://github.com/dydokamil/calendar-react.git
     cd calendar-react
+    yarn install
     yarn start
