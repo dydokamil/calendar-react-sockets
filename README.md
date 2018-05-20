@@ -13,4 +13,4 @@ https://calendar-react-sockets.herokuapp.com/
 
 ## Disclaimer
 
-I take no responsibility for whatever gets posted there.
+I take no responsibility for whatever gets posted on https://calendar-react-sockets.herokuapp.com/.
