@@ -10,3 +10,7 @@ https://calendar-react-sockets.herokuapp.com/
     cd calendar-react
     yarn install
     yarn start
+
+## Disclaimer
+
+I take no responsibility for whatever gets posted there.
